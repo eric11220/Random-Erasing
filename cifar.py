@@ -114,15 +114,16 @@ def main():
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        #transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         transforms.RandomErasing(probability = args.p, sh = args.sh, r1 = args.r1, ),
     ])
 
     transform_test = transforms.Compose([
         transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        #transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
 
+    '''
     dataloader = datasets.CIFAR100
     num_classes = 100
 
@@ -134,7 +135,7 @@ def main():
 
     '''
     data_dir = args.data_dir
-    num_classes = 100
+    num_classes = 80
     train_csv = os.path.join(data_dir, "train.csv")
     test_csv = os.path.join(data_dir, "val.csv")
     trainset = CustomDatasetFromImages(train_csv, os.path.join(data_dir, "images"))
@@ -142,7 +143,6 @@ def main():
 
     trainloader = data.DataLoader(trainset, batch_size=args.train_batch, shuffle=True, num_workers=args.workers)
     testloader = data.DataLoader(testset, batch_size=args.test_batch, shuffle=False, num_workers=args.workers)
-    '''
 
     # Model   
     print("==> creating model '{}'".format(args.arch))
