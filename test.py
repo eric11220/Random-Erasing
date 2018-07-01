@@ -143,6 +143,7 @@ if __name__ == '__main__':
         accu = correct / len(labels)
         print('<<<<>>>>accuracy:', accu)
     else:
+        choices -= novel_start
         ind = np.argsort(img_ids)
         img_ids = img_ids[ind]
         choices = choices[ind]
