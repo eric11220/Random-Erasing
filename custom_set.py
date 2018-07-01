@@ -7,7 +7,7 @@ from torchvision import transforms
 from PIL import Image
 
 class CustomDatasetFromImages(Dataset):
-    def __init__(self, csv_path, img_path):
+    def __init__(self, csv_path, img_path, transform=None):
         """
         Args:
             csv_path (string): path to csv file
@@ -17,7 +17,7 @@ class CustomDatasetFromImages(Dataset):
         self.img_path = img_path
 
         # Transforms
-        self.to_tensor = transforms.ToTensor()
+        self.transform = transform
         # Read the csv file
         self.data_info = pd.read_csv(csv_path, header=None)
         # First column contains the image paths
@@ -34,7 +34,7 @@ class CustomDatasetFromImages(Dataset):
         img_as_img = Image.open(single_image_name)
 
         # Transform image to tensor
-        img_as_tensor = self.to_tensor(img_as_img)
+        img_as_tensor = self.transform(img_as_img)
 
         # Get label(class) of the image based on the cropped pandas column
         single_image_label = int(self.label_arr[index])
