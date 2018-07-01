@@ -19,6 +19,9 @@ import models.cifar as models
 from utils import Bar, Logger, AverageMeter, accuracy, mkdir_p, savefig
 from custom_set import CustomDatasetFromImages
 
+from cutout import Cutout
+from autoaugment import CIFAR10Policy
+
 class ResnetConv(nn.Module):
     def __init__(self, orig_model):
         super(ResnetConv, self).__init__()
@@ -113,8 +116,10 @@ def main():
     transform_train = transforms.Compose([
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
+        #CIFAR10Policy(),
         transforms.ToTensor(),
         #transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        #Cutout(n_holes=1, length=16),
         transforms.RandomErasing(probability = args.p, sh = args.sh, r1 = args.r1, ),
     ])
 
@@ -138,8 +143,8 @@ def main():
     num_classes = 80
     train_csv = os.path.join(data_dir, "train.csv")
     test_csv = os.path.join(data_dir, "val.csv")
-    trainset = CustomDatasetFromImages(train_csv, os.path.join(data_dir, "images"))
-    testset = CustomDatasetFromImages(test_csv, os.path.join(data_dir, "images"))
+    trainset = CustomDatasetFromImages(train_csv, os.path.join(data_dir, "images"), transform=transform_train)
+    testset = CustomDatasetFromImages(test_csv, os.path.join(data_dir, "images"), transform=transform_test)
 
     trainloader = data.DataLoader(trainset, batch_size=args.train_batch, shuffle=True, num_workers=args.workers)
     testloader = data.DataLoader(testset, batch_size=args.test_batch, shuffle=False, num_workers=args.workers)
