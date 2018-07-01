@@ -1,5 +1,7 @@
+*.csv
 **~
 all_base_imgs
+five_shot
 checkpoint/
 data/
 
