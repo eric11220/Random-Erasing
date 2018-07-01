@@ -13,6 +13,18 @@ import math
 
 __all__ = ['resnet']
 
+class ResnetConv(nn.Module):
+    def __init__(self, orig_model):
+        super(ResnetConv, self).__init__()
+        self.features = nn.Sequential(
+            # stop at conv4
+            *list(orig_model.children())[:-1]
+        )
+    def forward(self, x):
+        x = self.features(x)
+        return x
+
+
 def conv3x3(in_planes, out_planes, stride=1):
     "3x3 convolution with padding"
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
@@ -118,6 +130,8 @@ class ResNet(nn.Module):
             elif isinstance(m, nn.BatchNorm2d):
                 m.weight.data.fill_(1)
                 m.bias.data.zero_()
+
+        print(self)
 
     def _make_layer(self, block, planes, blocks, stride=1):
         downsample = None
