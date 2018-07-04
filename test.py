@@ -54,6 +54,7 @@ def parse_inputs():
     parser.add_argument('--mode', help="Evaluate or testing", default="eval")
     parser.add_argument('--method', help="Classification method", default="knn")
     parser.add_argument('--kshot', help="K shot", default=10)
+    parser.add_argument('--out-file', help="Prediction file name", default="pred.csv")
 
     parser.add_argument('--augment', help="Augmentation ratio", default=0, type=int)
     parser.add_argument('--query-augment', help="Augmentation ratio for query", default=0, type=int)
@@ -215,7 +216,7 @@ if __name__ == '__main__':
         img_ids = img_ids[ind]
         choices = choices[ind]
 
-        with open("pred.csv", "w") as outf:
+        with open(args.out_file, "w") as outf:
             outf.write("image_id,predicted_label\n")
             for img_id, choice in zip(img_ids, choices):
                 outf.write("%s,%s\n" % (img_id, novel_mapping[choice]))
