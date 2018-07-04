@@ -53,7 +53,7 @@ def parse_inputs():
     parser.add_argument('ckpt', help="Saved checkpoint")
     parser.add_argument('--mode', help="Evaluate or testing", default="eval")
     parser.add_argument('--method', help="Classification method", default="knn")
-    parser.add_argument('--kshot', help="K shot", default=10)
+    parser.add_argument('--kshot', help="K shot", default=10, type=int)
     parser.add_argument('--out-file', help="Prediction file name", default="pred.csv")
 
     parser.add_argument('--augment', help="Augmentation ratio", default=0, type=int)
