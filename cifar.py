@@ -116,11 +116,11 @@ def main():
     transform_train = transforms.Compose([
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
-        #CIFAR10Policy(),
+        CIFAR10Policy(),
         transforms.ToTensor(),
         #transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-        #Cutout(n_holes=1, length=16),
-        transforms.RandomErasing(probability = args.p, sh = args.sh, r1 = args.r1, ),
+        Cutout(n_holes=1, length=16),
+        #transforms.RandomErasing(probability = args.p, sh = args.sh, r1 = args.r1, ),
     ])
 
     transform_test = transforms.Compose([
@@ -187,8 +187,8 @@ def main():
         start_epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['state_dict'])
 
-        model = ResnetConv(model.module)
-        model = torch.nn.DataParallel(model).cuda()
+        #model = ResnetConv(model.module)
+        #model = torch.nn.DataParallel(model).cuda()
 
         optimizer.load_state_dict(checkpoint['optimizer'])
         logger = Logger(os.path.join(args.checkpoint, 'log.txt'), title=title, resume=True)
